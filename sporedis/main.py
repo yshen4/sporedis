@@ -69,7 +69,7 @@ def home():
     text = request.form['tweet']
     post_id = str(g.db.incr('next_post_id'))
     g.db.hmset('post:' + post_id, dict(user_id=user_id,
-                                       ts=datetime.utcnow(), text=text))
+                                       ts=str(datetime.utcnow()), text=text))
     g.db.lpush('posts:' + str(user_id), str(post_id))
     g.db.lpush('timeline:' + str(user_id), str(post_id))
     g.db.ltrim('timeline:' + str(user_id), 0, 100)
