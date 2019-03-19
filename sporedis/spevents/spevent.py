@@ -125,7 +125,8 @@ class sp_event(object):
                 matches.append(ev.sku)
 
         return matches
-        
+
+# Use for testing        
 if __name__ == '__main__':
     # Redis setup
     DB_HOST = 'localhost'
