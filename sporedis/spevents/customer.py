@@ -22,7 +22,7 @@ class customer(object):
 
     def put(self, redisdb):
         key = keynamehelper.create_key_name("customer", self.id)
-        redisdb.set(key, repr(self))
+        redisdb.hmset(key, self.__dict__)
 
     @classmethod
     def get(self, redisdb, *keys):
@@ -30,10 +30,10 @@ class customer(object):
         for k in keys:
             key = keynamehelper.create_key_name("customer", k)
             for tk in redisdb.scan_iter(key):
-                cs = redisdb.get(tk)
+                cs = redisdb.hgetall(tk)
                 if cs:
-                    cs = json.loads(cs.decode('UTF-8'))
-                    results.append(customer(cs['id'], cs['name']))
+                    results.append(customer(cs[b'id'].decode('UTF-8'), 
+                                            cs[b'name'].decode('UTF-8')))
                 
         return results   
 
